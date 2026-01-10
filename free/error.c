@@ -28,14 +28,14 @@ void	executer_error_2(char **cmd, char *s)
 	write(2, "\n", 1);
 }
 
-void	executer_error(char **cmd, char *s, int exit_code)
+void	executer_error(t_cmd *main_cmd, char **cmd, char *s, int exit_code)
 {
 	write(2, "minishell: ", ft_strlen("minishell: "));
 	write(2, cmd[0], ft_strlen(cmd[0]));
 	write(2, ":", 1);
 	write(2, s, ft_strlen(s));
 	write(2, "\n", 1);
-	exit(exit_code);
+	ft_free_and_exit(main_cmd, exit_code);
 }
 
 static void	free_redirect_files(t_executor *exec)

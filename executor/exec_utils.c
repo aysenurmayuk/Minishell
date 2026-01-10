@@ -62,12 +62,19 @@ void	wait_child_process(t_cmd *cmd, int check)
 	tmp = cmd->executor;
 	while (tmp)
 	{
-		waitpid(tmp->pid, &result, 0);
-		if (!(check > 0) && tmp->files->error != 1 && tmp->files->error != 2)
+		if (tmp->pid != -1)
 		{
-			if (WIFSIGNALED(result) && WTERMSIG(result) == SIGINT)
-				cmd->status = 130;
-			cmd->status = result / 256;
+			if (waitpid(tmp->pid, &result, 0) != -1)
+			{
+				if (!(check > 0) && tmp->files->error != 1
+					&& tmp->files->error != 2)
+				{
+					if (WIFSIGNALED(result) && WTERMSIG(result) == SIGINT)
+						cmd->status = 130;
+					else
+						cmd->status = result / 256;
+				}
+			}
 		}
 		tmp = tmp->next;
 	}
@@ -89,14 +96,14 @@ static void	file_check_exec(t_cmd *cmd, t_executor *exec)
 				exit(0);
 			}
 			else
-				executer_error(exec->argv, " permission denied", 126);
+				executer_error(cmd, exec->argv, " permission denied", 126);
 		}
 		else if (ft_strcmp(exec->argv[0], ".") == 0)
-			executer_error(exec->argv, " filename argument required", 2);
+			executer_error(cmd, exec->argv, " filename argument required", 2);
 		else if (ft_strcmp(cmd->executor->argv[0], "..") == 0)
-			executer_error(exec->argv, " commond not found", 127);
+			executer_error(cmd, exec->argv, " commond not found", 127);
 		else
-			executer_error(exec->argv, " is a directory", 126);
+			executer_error(cmd, exec->argv, " is a directory", 126);
 	}
 }
 

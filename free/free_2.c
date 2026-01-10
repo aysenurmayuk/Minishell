@@ -69,6 +69,7 @@ void	free_executor(t_cmd *cmd, t_executor **executor, int check)
 	t_executor	*temp;
 
 	close_pipe(cmd, check);
+	wait_child_process(cmd, check);
 	while (*executor)
 	{
 		temp = *executor;

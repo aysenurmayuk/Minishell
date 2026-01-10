@@ -36,7 +36,7 @@ $(READLINE_LIB):
 	@curl -O https://ftp.gnu.org/gnu/readline/readline-8.2-rc1.tar.gz
 	@tar -xvf readline-8.2-rc1.tar.gz
 	@$(RM) readline-8.2-rc1.tar.gz
-	@cd readline-8.2-rc1 && ./configure --prefix=/lib/readline && make && make install
+	@cd readline-8.2-rc1 && ./configure --prefix=$(CURDIR)/lib/readline && make && make install
 	@$(RM) readline-8.2-rc1
 	@echo "Readline library installed."
 

@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_globals_exit;
+
 void	reset_struct(t_cmd *cmd)
 {
 	cmd->line = NULL;
@@ -57,7 +59,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	if (ac != 1)
 	{
-		error_message(NULL, "This program does not accept arguments\n");
+		printf("%s", "This program does not accept arguments\n");
 		exit(0);
 	}
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
@@ -74,4 +76,9 @@ int	main(int ac, char **av, char **env)
 	start_program(env, cmd);
 	free_env_list(cmd->env);
 	free_env_list(cmd->exp);
+	if (cmd)
+	{
+		full_free(cmd);
+		free(cmd);
+	}
 }

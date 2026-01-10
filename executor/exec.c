@@ -35,6 +35,7 @@ void	close_pipe(t_cmd *cmd, int check)
 	int	i;
 
 	i = 0;
+	(void)check;
 	if (!cmd->fd)
 		return ;
 	while (i < cmd->pipe_count - 1)
@@ -45,7 +46,6 @@ void	close_pipe(t_cmd *cmd, int check)
 			close(cmd->fd[i][1]);
 		i++;
 	}
-	wait_child_process(cmd, check);
 }
 
 static void	ft_execve(t_cmd *cmd, t_executor *executor, int check, int i)
@@ -56,12 +56,12 @@ static void	ft_execve(t_cmd *cmd, t_executor *executor, int check, int i)
 	if (check > 0 && cmd->pipe_count > 1)
 	{
 		builtin_handle(cmd, executor);
-		exit(0);
+		ft_free_and_exit(cmd, 0);
 	}
 	path = get_path(cmd, executor);
 	if (path == NULL && executor->argv[0] != NULL)
-		executer_error(executor->argv, " command not found", 127);
-	exit(0);
+		executer_error(cmd, executor->argv, " command not found", 127);
+	ft_free_and_exit(cmd, 0);
 }
 
 static void	executor_helper(t_cmd *cmd, t_executor *temp, int *check, int *i)

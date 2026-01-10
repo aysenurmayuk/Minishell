@@ -31,6 +31,7 @@ void	builtin_handle(t_cmd *cmd, t_executor *executor)
 	if (ft_strcmp(cmd->cleaned, "unset") == 0)
 		ft_unset(cmd);
 	free(cmd->cleaned);
+	cmd->cleaned = NULL;
 }
 
 int	builtin_check(char *cmd)

@@ -35,7 +35,7 @@ int	ft_parser(t_cmd *cmd, char *line)
 	ft_split_space(cmd);
 	dollar_handle(cmd);
 	add_exec_node(cmd, &cmd->executor, NULL, 0);
-	ft_executor(cmd, 0, 0, 1);
 	free(line);
+	ft_executor(cmd, 0, 0, 1);
 	return (0);
 }
