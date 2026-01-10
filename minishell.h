@@ -37,7 +37,7 @@
 # define OUTPUT 13
 # define BUFFER_SIZE 42
 
-int	g_globals_exit;
+extern int	g_globals_exit;
 
 typedef struct s_cmd
 {
@@ -165,7 +165,8 @@ void	free_fd(t_cmd *cmd);
 void	free_redirect(t_redirect **redirect);
 void	free_executor(t_cmd *cmd, t_executor **executor, int check);
 int		error_message(t_cmd *cmd, char *str);
-void	executer_error(char **cmd, char *s, int exit_code);
+void	ft_free_and_exit(t_cmd *cmd, int status);
+void	executer_error(t_cmd *main_cmd, char **cmd, char *s, int exit_code);
 void	executer_error_2(char **cmd, char *s);
 void	file_error(t_cmd *cmd, t_executor *executor, t_files *files);
 

@@ -32,26 +32,33 @@ static int	ft_isnumeric(char *str)
 	return (1);
 }
 
-void	ft_exit_error(char *str, int status)
+void	ft_free_and_exit(t_cmd *cmd, int status)
 {
-	printf("%s", str);
+	free_env_list(cmd->env);
+	free_env_list(cmd->exp);
+	free_fd(cmd);
+	full_free(cmd);
+	if (cmd)
+		free(cmd);
 	exit(status);
 }
 
 void	ft_exit(t_cmd *cmd)
 {
 	char	*arg;
+	int		status;
 
 	printf("exit\n");
 	if (cmd->pipe_count == 1)
 	{
 		if (cmd->command[0][1] == NULL)
-			ft_exit_error("", 0);
+			ft_free_and_exit(cmd, 0);
 		arg = remove_quotes(cmd, cmd->command[0][1]);
 		if (!ft_isnumeric(arg))
 		{
 			executer_error_2(cmd->command[0], " numeric argument required");
-			ft_exit_error("", 255);
+			free(arg);
+			ft_free_and_exit(cmd, 255);
 		}
 		if (cmd->command[0][2] != NULL)
 		{
@@ -60,7 +67,8 @@ void	ft_exit(t_cmd *cmd)
 			cmd->status = 1;
 			return ;
 		}
-		cmd->status = ft_atoi(arg) % 256;
-		ft_exit_error("", cmd->status);
+		status = ft_atoi(arg) % 256;
+		free(arg);
+		ft_free_and_exit(cmd, status);
 	}
 }

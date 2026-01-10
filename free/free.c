@@ -66,6 +66,8 @@ void	full_free(t_cmd *cmd)
 {
 	if (cmd->line)
 		free(cmd->line);
+	if (cmd->cleaned)
+		free(cmd->cleaned);
 	if (cmd->new_line)
 		free(cmd->new_line);
 	if (cmd->ncmd)
@@ -76,5 +78,7 @@ void	full_free(t_cmd *cmd)
 		free_double(cmd->envp);
 	if (cmd->command)
 		free_triple(cmd->command);
+	if (cmd->executor)
+		free_executor(cmd, &cmd->executor, 0);
 	reset_struct(cmd);
 }

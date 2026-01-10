@@ -1,0 +1,30 @@
+{
+   ignore_readline
+   Memcheck:Leak
+   ...
+   fun:readline
+}
+{
+   ignore_readline_initialize
+   Memcheck:Leak
+   ...
+   fun:rl_initialize
+}
+{
+   ignore_add_history
+   Memcheck:Leak
+   ...
+   fun:add_history
+}
+{
+   ignore_rl_insert
+   Memcheck:Leak
+   ...
+   fun:rl_insert
+}
+{
+   ignore_rl_read_init_file
+   Memcheck:Leak
+   ...
+   fun:rl_read_init_file
+}
